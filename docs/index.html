@@ -16,7 +16,7 @@
     />
     <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
-  <body data-github-user="edubertin">
+  <body data-github-user="edubertin" data-wp-site="edubertin.wordpress.com">
     <div class="bg" aria-hidden="true">
       <div class="bg-image"></div>
       <div class="bg-lights"></div>
@@ -26,15 +26,7 @@
     <header class="topbar">
       <nav class="nav">
         <a class="nav-link is-active" href="#" aria-current="page" data-i18n="nav.home">Home</a>
-        <a
-          class="nav-link is-disabled"
-          href="#"
-          aria-disabled="true"
-          tabindex="-1"
-          data-i18n="nav.articles"
-        >
-          Articles
-        </a>
+        <a class="nav-link" href="#articles" data-i18n="nav.articles">Articles</a>
         <button
           class="nav-link nav-btn"
           type="button"
@@ -90,6 +82,34 @@
       </section>
 
     </main>
+
+    <section class="articles" id="articles" aria-labelledby="articles-title">
+      <div class="section-head">
+        <p class="eyebrow" data-i18n="articles.eyebrow">Writing & insights</p>
+        <div class="section-title">
+          <h2 id="articles-title" data-i18n="articles.title">Articles</h2>
+          <p class="lead" data-i18n="articles.subtitle">
+            Latest posts from my WordPress blog.
+          </p>
+        </div>
+      </div>
+      <div class="articles-grid" id="articles-list" aria-live="polite">
+        <div class="article-card skeleton"></div>
+        <div class="article-card skeleton"></div>
+        <div class="article-card skeleton"></div>
+      </div>
+      <div class="articles-footer">
+        <a
+          class="btn ghost"
+          href="https://edubertin.wordpress.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          data-i18n="articles.more"
+        >
+          View all posts
+        </a>
+      </div>
+    </section>
 
     <footer class="footer">
       <div>

@@ -1,11 +1,13 @@
-const modalMap = {
+﻿const modalMap = {
   projects: document.getElementById("projects-modal"),
   contact: document.getElementById("contact-modal"),
 };
 
 const projectsList = document.getElementById("projects-list");
+const articlesList = document.getElementById("articles-list");
 const githubUser =
   document.body?.dataset.githubUser?.trim() || "edubertin";
+const wpSite = document.body?.dataset.wpSite?.trim() || "edubertin.wordpress.com";
 
 const translations = {
   en: {
@@ -23,6 +25,13 @@ const translations = {
     "hero.tag.arch": "Architecture",
     "hero.tag.product": "Product",
     "hero.tag.automation": "Automation",
+    "articles.eyebrow": "Writing & insights",
+    "articles.title": "Articles",
+    "articles.subtitle": "Latest posts from my WordPress blog.",
+    "articles.more": "View all posts",
+    "articles.empty": "No articles found right now.",
+    "articles.loadError": "Unable to load articles. Please try again later.",
+    "articles.openLabel": "Open article on WordPress",
     "footer.tagline": "AI applied with clarity, speed, and results.",
     "footer.rights": "© 2026 Eduardo Bertin",
     "footer.reserved": "All rights reserved",
@@ -50,6 +59,13 @@ const translations = {
     "hero.tag.arch": "Arquitetura",
     "hero.tag.product": "Produto",
     "hero.tag.automation": "Automação",
+    "articles.eyebrow": "Escrita & insights",
+    "articles.title": "Artigos",
+    "articles.subtitle": "Últimos posts do meu blog no WordPress.",
+    "articles.more": "Ver todos os posts",
+    "articles.empty": "Nenhum artigo encontrado no momento.",
+    "articles.loadError": "Não foi possível carregar os artigos. Tente novamente mais tarde.",
+    "articles.openLabel": "Abrir artigo no WordPress",
     "footer.tagline": "IA aplicada com clareza, velocidade e resultado.",
     "footer.rights": "© 2026 Eduardo Bertin",
     "footer.reserved": "Todos os direitos reservados",
@@ -60,7 +76,7 @@ const translations = {
     "project.fallbackDesc": "Repositório em destaque.",
     "project.fallbackLang": "Stack",
     "project.updated": "Atualizado",
-    "project.openLabel": "Abrir repositório no GitHub",
+    "project.openLabel": "Abrir Repositório no GitHub",
   },
 };
 
@@ -137,6 +153,9 @@ const setLanguage = (lang) => {
     projectsLoaded = false;
     loadProjects();
   }
+  if (articlesLoaded && articlesCache.length) {
+    renderArticles(articlesCache);
+  }
 };
 
 document.querySelectorAll(".lang-btn").forEach((btn) => {
@@ -185,6 +204,8 @@ document.addEventListener("keydown", (event) => {
 });
 
 let projectsLoaded = false;
+let articlesLoaded = false;
+let articlesCache = [];
 
 const createProjectCard = (repo) => {
   const card = document.createElement("a");
@@ -250,6 +271,142 @@ const loadProjects = async () => {
   }
 };
 
+const stripHtml = (html) => {
+  if (!html) return "";
+  const temp = document.createElement("div");
+  temp.innerHTML = html;
+  return (temp.textContent || temp.innerText || "").trim();
+};
+
+const extractImageUrl = (html) => {
+  if (!html) return "";
+  const temp = document.createElement("div");
+  temp.innerHTML = html;
+  const img = temp.querySelector("img");
+  return img?.getAttribute("src") || "";
+};
+
+const normalizePost = (post) => {
+  if (!post) return null;
+  if (post.URL || post.title) {
+    return {
+      title: typeof post.title === "string" ? post.title : post.title?.rendered || "",
+      URL: post.URL || post.link || "#",
+      date: post.date || "",
+      excerpt:
+        typeof post.excerpt === "string"
+          ? post.excerpt
+          : post.excerpt?.rendered || "",
+      content:
+        typeof post.content === "string"
+          ? post.content
+          : post.content?.rendered || "",
+      featured_image:
+        post.featured_image ||
+        post._embedded?.["wp:featuredmedia"]?.[0]?.source_url ||
+        "",
+    };
+  }
+  return null;
+};
+
+const createArticleCard = (post) => {
+  const card = document.createElement("a");
+  card.className = "article-card";
+  card.href = post.URL || "#";
+  card.target = "_blank";
+  card.rel = "noopener noreferrer";
+  card.setAttribute("aria-label", translations[currentLang]["articles.openLabel"]);
+
+  const media = document.createElement("div");
+  media.className = "article-media";
+  const imageUrl =
+    post.featured_image || extractImageUrl(post.content) || "";
+  if (imageUrl) {
+    const img = document.createElement("img");
+    img.src = imageUrl;
+    img.alt = stripHtml(post.title) || "Article image";
+    img.loading = "lazy";
+    media.appendChild(img);
+  }
+
+  const body = document.createElement("div");
+  body.className = "article-body";
+
+  const meta = document.createElement("div");
+  meta.className = "article-meta";
+  const date = new Date(post.date || Date.now());
+  const locale = currentLang === "pt" ? "pt-BR" : "en-US";
+  const dateEl = document.createElement("span");
+  dateEl.textContent = date.toLocaleDateString(locale);
+  meta.appendChild(dateEl);
+
+  const title = document.createElement("h3");
+  title.className = "article-title";
+  title.textContent = stripHtml(post.title) || "Untitled";
+
+  const excerpt = document.createElement("p");
+  excerpt.className = "article-excerpt";
+  excerpt.textContent = stripHtml(post.excerpt).slice(0, 160);
+
+  body.append(meta, title, excerpt);
+  card.append(media, body);
+  return card;
+};
+
+const renderArticles = (posts) => {
+  if (!articlesList) return;
+  articlesList.innerHTML = "";
+  if (!posts.length) {
+    const empty = document.createElement("div");
+    empty.className = "articles-empty";
+    empty.textContent = translations[currentLang]["articles.empty"];
+    articlesList.appendChild(empty);
+    return;
+  }
+  posts.slice(0, 6).forEach((post) => {
+    articlesList.appendChild(createArticleCard(post));
+  });
+};
+
+const loadArticles = async () => {
+  if (articlesLoaded) return;
+  articlesLoaded = true;
+  if (!articlesList) return;
+  try {
+    const response = await fetch(
+      `https://public-api.wordpress.com/rest/v1.1/sites/${wpSite}/posts/?number=6&fields=ID,title,URL,date,excerpt,content,featured_image`
+    );
+    if (!response.ok) throw new Error("API error");
+    const data = await response.json();
+    let posts = Array.isArray(data?.posts) ? data.posts : [];
+    posts = posts.map(normalizePost).filter(Boolean);
+    if (!posts.length) throw new Error("No posts found");
+    articlesCache = posts;
+    renderArticles(posts);
+  } catch (error) {
+    try {
+      const response = await fetch(
+        `https://public-api.wordpress.com/wp/v2/sites/${wpSite}/posts?per_page=6&_embed`
+      );
+      if (!response.ok) throw new Error("API error");
+      const data = await response.json();
+      const posts = Array.isArray(data) ? data.map(normalizePost).filter(Boolean) : [];
+      if (!posts.length) throw new Error("No posts found");
+      articlesCache = posts;
+      renderArticles(posts);
+      return;
+    } catch (fallbackError) {
+      console.error("Failed to load WordPress articles:", fallbackError);
+    }
+    articlesList.innerHTML = "";
+    const empty = document.createElement("div");
+    empty.className = "articles-empty";
+    empty.textContent = translations[currentLang]["articles.loadError"];
+    articlesList.appendChild(empty);
+  }
+};
+
 let storedLang = null;
 try {
   storedLang = localStorage.getItem("siteLang");
@@ -257,3 +414,7 @@ try {
   storedLang = null;
 }
 setLanguage(storedLang || "en");
+loadArticles();
+
+
+
