@@ -1,364 +1,190 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Eduardo Bertin | Blog & IA</title>
+    <title>eduardobertin.com.br</title>
     <meta
       name="description"
-      content="Blog pessoal de Eduardo Bertin, programador de IA. Projetos, ideias e bastidores de computação."
+      content="AI portfolio focused on product, data, and software."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@600;700&display=swap"
       rel="stylesheet"
     />
-    <style>
-      :root {
-        --bg: #0b0f17;
-        --bg-2: #0f1623;
-        --ink: #e6eef9;
-        --muted: #9bb0c7;
-        --accent: #39d98a;
-        --accent-2: #3f8cff;
-        --card: #111a2a;
-        --stroke: #1f2a3a;
-        --glow: rgba(63, 140, 255, 0.25);
-      }
-
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-
-      body {
-        font-family: "Space Grotesk", system-ui, -apple-system, sans-serif;
-        color: var(--ink);
-        background: radial-gradient(1200px 800px at 10% 10%, #12213a 0%, var(--bg) 50%)
-          fixed;
-        min-height: 100vh;
-        line-height: 1.5;
-      }
-
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
-
-      .page {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 48px 24px 80px;
-      }
-
-      header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 24px;
-        margin-bottom: 64px;
-      }
-
-      .brand {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-      }
-
-      .avatar {
-        width: 52px;
-        height: 52px;
-        border-radius: 16px;
-        background: linear-gradient(135deg, var(--accent), var(--accent-2));
-        box-shadow: 0 0 24px var(--glow);
-      }
-
-      .brand h1 {
-        font-size: 1.4rem;
-        font-weight: 600;
-      }
-
-      .brand p {
-        color: var(--muted);
-        font-size: 0.95rem;
-      }
-
-      .nav {
-        display: flex;
-        gap: 16px;
-        font-size: 0.95rem;
-        color: var(--muted);
-      }
-
-      .nav a {
-        padding: 8px 14px;
-        border-radius: 999px;
-        border: 1px solid transparent;
-        transition: 0.2s ease;
-      }
-
-      .nav a:hover {
-        border-color: var(--stroke);
-        color: var(--ink);
-        background: rgba(255, 255, 255, 0.04);
-      }
-
-      .hero {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-        gap: 32px;
-        align-items: center;
-        margin-bottom: 72px;
-      }
-
-      .hero h2 {
-        font-size: clamp(2.2rem, 3.5vw, 3.6rem);
-        line-height: 1.1;
-        margin-bottom: 16px;
-      }
-
-      .hero p {
-        color: var(--muted);
-        font-size: 1.05rem;
-        margin-bottom: 24px;
-      }
-
-      .hero .cta {
-        display: inline-flex;
-        align-items: center;
-        gap: 12px;
-        padding: 12px 20px;
-        border-radius: 12px;
-        background: linear-gradient(135deg, var(--accent-2), var(--accent));
-        color: #04131f;
-        font-weight: 600;
-      }
-
-      .hero .meta {
-        margin-top: 20px;
-        font-family: "JetBrains Mono", ui-monospace, monospace;
-        font-size: 0.9rem;
-        color: var(--muted);
-      }
-
-      .showcase {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 20px;
-      }
-
-      .card {
-        padding: 20px;
-        border-radius: 18px;
-        background: var(--card);
-        border: 1px solid var(--stroke);
-        min-height: 220px;
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .card::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(400px 200px at 80% 0%, rgba(57, 217, 138, 0.2), transparent);
-        opacity: 0.6;
-        pointer-events: none;
-      }
-
-      .card h3 {
-        font-size: 1.1rem;
-      }
-
-      .card p {
-        color: var(--muted);
-        font-size: 0.95rem;
-      }
-
-      .badge {
-        align-self: flex-start;
-        padding: 6px 10px;
-        border-radius: 999px;
-        background: rgba(63, 140, 255, 0.15);
-        color: #b7d0ff;
-        font-size: 0.75rem;
-        font-weight: 600;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-      }
-
-      .gallery {
-        margin-top: 72px;
-      }
-
-      .gallery h3 {
-        font-size: 1.4rem;
-        margin-bottom: 16px;
-      }
-
-      .gallery-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 16px;
-      }
-
-      .gallery figure {
-        border-radius: 18px;
-        overflow: hidden;
-        border: 1px solid var(--stroke);
-        background: var(--bg-2);
-        min-height: 200px;
-        position: relative;
-      }
-
-      .gallery img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        filter: saturate(1.1);
-        transform: scale(1.02);
-        transition: transform 0.4s ease;
-      }
-
-      .gallery figure:hover img {
-        transform: scale(1.08);
-      }
-
-      footer {
-        margin-top: 80px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 16px;
-        align-items: center;
-        justify-content: space-between;
-        color: var(--muted);
-        font-size: 0.95rem;
-      }
-
-      .ig {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 16px;
-        border-radius: 12px;
-        border: 1px solid var(--stroke);
-        background: rgba(255, 255, 255, 0.04);
-        transition: 0.2s ease;
-      }
-
-      .ig:hover {
-        border-color: var(--accent-2);
-        color: var(--ink);
-      }
-
-      @media (max-width: 720px) {
-        header {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-
-        .nav {
-          flex-wrap: wrap;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
-  <body>
-    <div class="page">
-      <header>
-        <div class="brand">
-          <div class="avatar" aria-hidden="true"></div>
-          <div>
-            <h1>Eduardo Bertin</h1>
-            <p>Programador de IA · Blog pessoal</p>
-          </div>
-        </div>
-        <nav class="nav">
-          <a href="#sobre">Sobre</a>
-          <a href="#showcase">Showcase</a>
-          <a href="#galeria">Galeria</a>
-        </nav>
-      </header>
-
-      <section class="hero" id="sobre">
-        <div>
-          <h2>Exploro o futuro da computação com IA e código elegante.</h2>
-          <p>
-            Aqui você encontra meus projetos, experimentos e reflexões sobre modelos
-            inteligentes, engenharia de software e design de sistemas modernos.
-          </p>
-          <a class="cta" href="https://instagram.com/edubertin" target="_blank" rel="noreferrer">
-            Acompanhe no Instagram
-          </a>
-          <div class="meta">Stack: Python · PyTorch · LLMs · Cloud</div>
-        </div>
-        <div class="showcase" id="showcase">
-          <div class="card">
-            <span class="badge">Pesquisa</span>
-            <h3>Modelos Generativos</h3>
-            <p>
-              Estudos sobre alinhamento, avaliação e geração multimodal para aplicações reais.
-            </p>
-          </div>
-          <div class="card">
-            <span class="badge">Aplicações</span>
-            <h3>Produtos com IA</h3>
-            <p>
-              Construção de soluções inteligentes para automatizar fluxos e ampliar decisões.
-            </p>
-          </div>
-          <div class="card">
-            <span class="badge">Performance</span>
-            <h3>Infra & MLOps</h3>
-            <p>
-              Pipelines, observabilidade e otimização para colocar modelos em produção.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section class="gallery" id="galeria">
-        <h3>Imagens que inspiram</h3>
-        <div class="gallery-grid">
-          <figure>
-            <img
-src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=900&q=80"
-              alt="Equipe de tecnologia e inovação"
-            />
-          </figure>
-          <figure>
-            <img
-              src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=900&q=80"
-              alt="Luzes neon e ambiente futurista"
-            />
-          </figure>
-          <figure>
-            <img
-src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80"
-              alt="Computação e IA"
-            />
-          </figure>
-          <figure>
-            <img
-src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=900&q=80"
-              alt="Código e desenvolvimento"
-            />
-          </figure>
-        </div>
-      </section>
-
-      <footer>
-        <div>© 2026 Eduardo Bertin · Blog pessoal de IA</div>
-        <a class="ig" href="https://instagram.com/edubertin" target="_blank" rel="noreferrer">
-          instagram.com/edubertin
-        </a>
-      </footer>
+  <body data-github-user="edubertin">
+    <div class="bg" aria-hidden="true">
+      <div class="bg-image"></div>
+      <div class="bg-lights"></div>
+      <div class="bg-noise"></div>
     </div>
+
+    <header class="topbar">
+      <nav class="nav">
+        <a class="nav-link is-active" href="#" aria-current="page" data-i18n="nav.home">Home</a>
+        <a
+          class="nav-link is-disabled"
+          href="#"
+          aria-disabled="true"
+          tabindex="-1"
+          data-i18n="nav.articles"
+        >
+          Articles
+        </a>
+        <button
+          class="nav-link nav-btn"
+          type="button"
+          data-open="projects"
+          data-i18n="nav.projects"
+        >
+          Projects
+        </button>
+        <button
+          class="nav-link nav-btn"
+          type="button"
+          data-open="contact"
+          data-i18n="nav.contact"
+        >
+          Contact
+        </button>
+      </nav>
+      <div class="lang-switch" aria-label="Language selection">
+        <button class="lang-btn is-active" type="button" aria-label="English" data-lang="en">
+          <span class="flag flag-us" aria-hidden="true"></span>
+          EN
+        </button>
+        <button class="lang-btn" type="button" aria-label="Portuguese" data-lang="pt">
+          <span class="flag flag-br" aria-hidden="true"></span>
+          PT
+        </button>
+      </div>
+    </header>
+
+    <main class="hero">
+      <div class="hero-photo" aria-hidden="true"></div>
+      <section class="hero-content">
+        <p class="eyebrow" data-i18n="hero.eyebrow">AI applied to product, data, and software</p>
+        <h1 data-i18n="hero.title">Artificial Intelligence Engineer</h1>
+        <p class="lead" data-i18n="hero.lead">
+          Code, models, architecture, and critical thinking about AI. From
+          prototype to deployment, focused on performance and experience.
+        </p>
+        <div class="hero-actions">
+          <button class="btn primary" data-open="projects" data-i18n="hero.cta.projects">
+            View projects
+          </button>
+          <button class="btn ghost" data-open="contact" data-i18n="hero.cta.contact">
+            Talk to me
+          </button>
+        </div>
+        <div class="hero-tags">
+          <span data-i18n="hero.tag.ml">Machine Learning</span>
+          <span data-i18n="hero.tag.arch">Architecture</span>
+          <span data-i18n="hero.tag.product">Product</span>
+          <span data-i18n="hero.tag.automation">Automation</span>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="footer">
+      <div>
+        <strong>eduardobertin.com.br</strong>
+        <span data-i18n="footer.tagline">AI applied with clarity, speed, and results.</span>
+      </div>
+      <div class="footer-links">
+        <span data-i18n="footer.rights">&copy; 2026 Eduardo Bertin</span>
+        <span data-i18n="footer.reserved">All rights reserved</span>
+      </div>
+    </footer>
+
+    <div class="modal" id="projects-modal" aria-hidden="true">
+      <div class="modal-backdrop" data-close="projects"></div>
+      <div class="modal-card" role="dialog" aria-modal="true">
+        <header>
+          <h2 data-i18n="projects.title">Featured projects</h2>
+          <button class="icon-btn" type="button" data-close="projects" aria-label="Close">
+            &times;
+          </button>
+        </header>
+        <p class="muted" data-i18n="projects.subtitle">Repositories updated directly from GitHub.</p>
+        <div class="projects-grid" id="projects-list">
+          <div class="project-card skeleton"></div>
+          <div class="project-card skeleton"></div>
+          <div class="project-card skeleton"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="contact-modal" aria-hidden="true">
+      <div class="modal-backdrop" data-close="contact"></div>
+      <div class="modal-card" role="dialog" aria-modal="true">
+        <header>
+          <h2 data-i18n="contact.title">Contact</h2>
+          <button class="icon-btn" type="button" data-close="contact" aria-label="Close">
+            &times;
+          </button>
+        </header>
+        <div class="contact-grid">
+          <a class="contact-item" href="mailto:contato@eduardobertin.com.br">
+            <span class="icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M4 6h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2zm0 2v.2l8 4.8 8-4.8V8H4zm0 8h16V10.6l-7.4 4.4a1.5 1.5 0 0 1-1.5 0L4 10.6V16z"
+                />
+              </svg>
+            </span>
+            <div>
+              <strong data-i18n="contact.email">Email</strong>
+              <span>contato@eduardobertin.com.br</span>
+            </div>
+          </a>
+          <a
+            class="contact-item"
+            href="https://github.com/edubertin"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.8c-2.9.6-3.5-1.2-3.5-1.2-.5-1.1-1.2-1.4-1.2-1.4-1-.7.1-.7.1-.7 1.1.1 1.7 1.1 1.7 1.1 1 .1.8 1.8 2.9 1.3.1-.7.4-1.2.7-1.5-2.3-.2-4.7-1.1-4.7-5.1 0-1.1.4-2.1 1.1-2.8-.1-.3-.5-1.4.1-2.8 0 0 .9-.3 2.9 1.1a9.8 9.8 0 0 1 5.3 0c2-1.4 2.9-1.1 2.9-1.1.6 1.4.2 2.5.1 2.8.7.7 1.1 1.7 1.1 2.8 0 4-2.4 4.9-4.7 5.1.4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z"
+                />
+              </svg>
+            </span>
+            <div>
+              <strong>GitHub</strong>
+              <span>github.com/edubertin</span>
+            </div>
+          </a>
+          <a
+            class="contact-item"
+            href="https://instagram.com/edubertin"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4zm0 2a2 2 0 0 0-2 2v10c0 1.1.9 2 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H7zm5 3.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zm5.3-2.6a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2z"
+                />
+              </svg>
+            </span>
+            <div>
+              <strong>Instagram</strong>
+              <span>@edubertin</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <script src="assets/js/script.js"></script>
   </body>
 </html>
+
+
