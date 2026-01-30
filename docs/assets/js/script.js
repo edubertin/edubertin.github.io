@@ -356,7 +356,7 @@ const createArticleCard = (post) => {
 
   const excerpt = document.createElement("p");
   excerpt.className = "article-excerpt";
-  excerpt.textContent = stripHtml(post.excerpt).slice(0, 160);
+  excerpt.textContent = stripHtml(post.excerpt).slice(0, 110);
 
   body.append(meta, title, excerpt);
   card.append(media, body);
@@ -373,7 +373,7 @@ const renderArticles = (posts) => {
     articlesList.appendChild(empty);
     return;
   }
-  posts.slice(0, 6).forEach((post) => {
+  posts.slice(0, 9).forEach((post) => {
     articlesList.appendChild(createArticleCard(post));
   });
 };
@@ -388,7 +388,7 @@ const renderArticlesSummary = (posts) => {
     articlesSummary.appendChild(empty);
     return;
   }
-  posts.slice(0, 5).forEach((post) => {
+  posts.slice(0, 9).forEach((post) => {
     const item = document.createElement("a");
     item.className = "articles-summary-item";
     item.href = post.URL || "#";
@@ -417,7 +417,7 @@ const loadArticles = async () => {
   if (!articlesList) return;
   try {
     const response = await fetch(
-      `https://public-api.wordpress.com/rest/v1.1/sites/${wpSite}/posts/?number=6&fields=ID,title,URL,date,excerpt,content,featured_image`
+      `https://public-api.wordpress.com/rest/v1.1/sites/${wpSite}/posts/?number=9&fields=ID,title,URL,date,excerpt,content,featured_image`
     );
     if (!response.ok) throw new Error("API error");
     const data = await response.json();
@@ -430,7 +430,7 @@ const loadArticles = async () => {
   } catch (error) {
     try {
       const response = await fetch(
-        `https://public-api.wordpress.com/wp/v2/sites/${wpSite}/posts?per_page=6&_embed`
+        `https://public-api.wordpress.com/wp/v2/sites/${wpSite}/posts?per_page=9&_embed`
       );
       if (!response.ok) throw new Error("API error");
       const data = await response.json();

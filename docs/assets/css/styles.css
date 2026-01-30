@@ -289,6 +289,17 @@ body {
   z-index: 0;
 }
 
+.hero-photo::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 140px;
+  background: linear-gradient(180deg, rgba(5, 10, 18, 0), rgba(5, 10, 18, 0.85));
+  pointer-events: none;
+}
+
 .hero-content {
   max-width: 640px;
   position: relative;
@@ -366,6 +377,18 @@ body {
 .articles {
   padding: 6vh 6vw 10vh;
   position: relative;
+  background: rgba(5, 10, 18, 0.85);
+}
+
+.articles::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -60px;
+  height: 60px;
+  background: linear-gradient(180deg, rgba(5, 10, 18, 0), rgba(5, 10, 18, 0.85));
+  pointer-events: none;
 }
 
 .section-head {
@@ -373,6 +396,10 @@ body {
   gap: 10px;
   margin-bottom: 24px;
   max-width: 720px;
+}
+
+.section-head .eyebrow {
+  color: rgba(86, 189, 252, 0.85);
 }
 
 .section-title h2 {
@@ -383,25 +410,33 @@ body {
 
 .articles-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .articles-summary {
   display: grid;
-  gap: 12px;
-  max-width: 720px;
+  gap: 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .articles-summary-item {
   display: grid;
   gap: 6px;
   padding: 12px 16px;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   background:
-    radial-gradient(circle at 20% 20%, rgba(86, 189, 252, 0.12), transparent 55%),
-    linear-gradient(135deg, rgba(8, 12, 20, 0.96), rgba(6, 10, 18, 0.92));
+    radial-gradient(circle at 18% 25%, rgba(86, 189, 252, 0.16), transparent 55%),
+    radial-gradient(circle at 82% 70%, rgba(255, 114, 94, 0.1), transparent 60%),
+    linear-gradient(135deg, rgba(8, 12, 20, 0.98), rgba(6, 10, 18, 0.92));
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.45),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
   color: inherit;
   text-decoration: none;
   transition: transform 0.2s ease, border-color 0.2s ease;
@@ -413,7 +448,7 @@ body {
 }
 
 .articles-summary-title {
-  font-size: 0.95rem;
+  font-size: 1.1rem;
   line-height: 1.3;
 }
 
@@ -425,28 +460,33 @@ body {
 .article-card {
   text-decoration: none;
   color: inherit;
-  border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   background:
-    radial-gradient(circle at 20% 20%, rgba(86, 189, 252, 0.12), transparent 55%),
-    linear-gradient(135deg, rgba(8, 12, 20, 0.96), rgba(6, 10, 18, 0.92));
+    radial-gradient(circle at 18% 20%, rgba(86, 189, 252, 0.18), transparent 55%),
+    radial-gradient(circle at 85% 75%, rgba(255, 114, 94, 0.1), transparent 60%),
+    linear-gradient(135deg, rgba(8, 12, 20, 0.98), rgba(6, 10, 18, 0.92));
   overflow: hidden;
   display: grid;
   grid-template-rows: auto 1fr;
   min-height: 280px;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+  box-shadow:
+    0 22px 50px rgba(0, 0, 0, 0.55),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06);
   transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
 .article-card:hover {
   transform: translateY(-3px);
-  border-color: rgba(86, 189, 252, 0.35);
+  border-color: rgba(86, 189, 252, 0.45);
 }
 
 .article-media {
   position: relative;
-  padding-top: 56%;
-  background: linear-gradient(120deg, rgba(20, 32, 54, 0.7), rgba(6, 10, 18, 0.9));
+  padding-top: 46%;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(86, 189, 252, 0.2), transparent 60%),
+    linear-gradient(120deg, rgba(20, 32, 54, 0.75), rgba(6, 10, 18, 0.95));
   overflow: hidden;
 }
 
@@ -456,7 +496,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: saturate(1.05) brightness(0.9);
+  filter: saturate(1.1) brightness(0.9);
 }
 
 .article-body {
@@ -473,7 +513,7 @@ body {
 }
 
 .article-title {
-  font-size: 1rem;
+  font-size: 1.15rem;
   line-height: 1.3;
 }
 
@@ -483,7 +523,9 @@ body {
 }
 
 .articles-footer {
-  margin-top: 24px;
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
 }
 
 .articles-grid .skeleton {
@@ -758,6 +800,24 @@ body {
 
   .footer-links {
     text-align: left;
+  }
+}
+
+@media (max-width: 1100px) {
+  .articles-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .articles-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .articles-grid {
+    grid-template-columns: 1fr;
+  }
+  .articles-summary {
+    grid-template-columns: 1fr;
   }
 }
 
