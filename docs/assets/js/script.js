@@ -1,10 +1,12 @@
 ﻿const modalMap = {
   projects: document.getElementById("projects-modal"),
   contact: document.getElementById("contact-modal"),
+  articles: document.getElementById("articles-modal"),
 };
 
 const projectsList = document.getElementById("projects-list");
 const articlesList = document.getElementById("articles-list");
+const articlesSummary = document.getElementById("articles-summary");
 const githubUser =
   document.body?.dataset.githubUser?.trim() || "edubertin";
 const wpSite = document.body?.dataset.wpSite?.trim() || "edubertin.wordpress.com";
@@ -32,6 +34,7 @@ const translations = {
     "articles.empty": "No articles found right now.",
     "articles.loadError": "Unable to load articles. Please try again later.",
     "articles.openLabel": "Open article on WordPress",
+    "articles.summaryLabel": "Read article on WordPress",
     "footer.tagline": "AI applied with clarity, speed, and results.",
     "footer.rights": "© 2026 Eduardo Bertin",
     "footer.reserved": "All rights reserved",
@@ -66,6 +69,7 @@ const translations = {
     "articles.empty": "Nenhum artigo encontrado no momento.",
     "articles.loadError": "Não foi possível carregar os artigos. Tente novamente mais tarde.",
     "articles.openLabel": "Abrir artigo no WordPress",
+    "articles.summaryLabel": "Ler artigo no WordPress",
     "footer.tagline": "IA aplicada com clareza, velocidade e resultado.",
     "footer.rights": "© 2026 Eduardo Bertin",
     "footer.reserved": "Todos os direitos reservados",
@@ -155,6 +159,7 @@ const setLanguage = (lang) => {
   }
   if (articlesLoaded && articlesCache.length) {
     renderArticles(articlesCache);
+    renderArticlesSummary(articlesCache);
   }
 };
 
@@ -186,6 +191,9 @@ document.querySelectorAll("[data-open]").forEach((btn) => {
     if (key === "projects") {
       loadProjects();
     }
+    if (key === "articles") {
+      loadArticles();
+    }
   });
 });
 
@@ -200,6 +208,7 @@ document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
     closeModal("projects");
     closeModal("contact");
+    closeModal("articles");
   }
 });
 
@@ -369,6 +378,39 @@ const renderArticles = (posts) => {
   });
 };
 
+const renderArticlesSummary = (posts) => {
+  if (!articlesSummary) return;
+  articlesSummary.innerHTML = "";
+  if (!posts.length) {
+    const empty = document.createElement("div");
+    empty.className = "articles-empty";
+    empty.textContent = translations[currentLang]["articles.empty"];
+    articlesSummary.appendChild(empty);
+    return;
+  }
+  posts.slice(0, 5).forEach((post) => {
+    const item = document.createElement("a");
+    item.className = "articles-summary-item";
+    item.href = post.URL || "#";
+    item.target = "_blank";
+    item.rel = "noopener noreferrer";
+    item.setAttribute("aria-label", translations[currentLang]["articles.summaryLabel"]);
+
+    const title = document.createElement("div");
+    title.className = "articles-summary-title";
+    title.textContent = stripHtml(post.title) || "Untitled";
+
+    const meta = document.createElement("div");
+    meta.className = "articles-summary-meta";
+    const date = new Date(post.date || Date.now());
+    const locale = currentLang === "pt" ? "pt-BR" : "en-US";
+    meta.textContent = date.toLocaleDateString(locale);
+
+    item.append(title, meta);
+    articlesSummary.appendChild(item);
+  });
+};
+
 const loadArticles = async () => {
   if (articlesLoaded) return;
   articlesLoaded = true;
@@ -384,6 +426,7 @@ const loadArticles = async () => {
     if (!posts.length) throw new Error("No posts found");
     articlesCache = posts;
     renderArticles(posts);
+    renderArticlesSummary(posts);
   } catch (error) {
     try {
       const response = await fetch(
@@ -395,6 +438,7 @@ const loadArticles = async () => {
       if (!posts.length) throw new Error("No posts found");
       articlesCache = posts;
       renderArticles(posts);
+      renderArticlesSummary(posts);
       return;
     } catch (fallbackError) {
       console.error("Failed to load WordPress articles:", fallbackError);
@@ -404,6 +448,13 @@ const loadArticles = async () => {
     empty.className = "articles-empty";
     empty.textContent = translations[currentLang]["articles.loadError"];
     articlesList.appendChild(empty);
+    if (articlesSummary) {
+      articlesSummary.innerHTML = "";
+      const summaryEmpty = document.createElement("div");
+      summaryEmpty.className = "articles-empty";
+      summaryEmpty.textContent = translations[currentLang]["articles.loadError"];
+      articlesSummary.appendChild(summaryEmpty);
+    }
   }
 };
 
@@ -415,6 +466,13 @@ try {
 }
 setLanguage(storedLang || "en");
 loadArticles();
+
+
+
+
+
+
+
 
 
 

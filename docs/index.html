@@ -26,7 +26,9 @@
     <header class="topbar">
       <nav class="nav">
         <a class="nav-link is-active" href="#" aria-current="page" data-i18n="nav.home">Home</a>
-        <a class="nav-link" href="#articles" data-i18n="nav.articles">Articles</a>
+        <button class="nav-link nav-btn" type="button" data-open="articles" data-i18n="nav.articles">
+          Articles
+        </button>
         <button
           class="nav-link nav-btn"
           type="button"
@@ -93,21 +95,15 @@
           </p>
         </div>
       </div>
-      <div class="articles-grid" id="articles-list" aria-live="polite">
-        <div class="article-card skeleton"></div>
-        <div class="article-card skeleton"></div>
-        <div class="article-card skeleton"></div>
+      <div class="articles-summary" id="articles-summary" aria-live="polite">
+        <div class="articles-summary-item skeleton"></div>
+        <div class="articles-summary-item skeleton"></div>
+        <div class="articles-summary-item skeleton"></div>
       </div>
       <div class="articles-footer">
-        <a
-          class="btn ghost"
-          href="https://edubertin.wordpress.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-          data-i18n="articles.more"
-        >
+        <button class="btn ghost" type="button" data-open="articles" data-i18n="articles.more">
           View all posts
-        </a>
+        </button>
       </div>
     </section>
 
@@ -198,6 +194,35 @@
               <strong>Instagram</strong>
               <span>@edubertin</span>
             </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="articles-modal" aria-hidden="true">
+      <div class="modal-backdrop" data-close="articles"></div>
+      <div class="modal-card" role="dialog" aria-modal="true">
+        <header>
+          <h2 data-i18n="articles.title">Articles</h2>
+          <button class="icon-btn" type="button" data-close="articles" aria-label="Close">
+            &times;
+          </button>
+        </header>
+        <p class="muted" data-i18n="articles.subtitle">Latest posts from my WordPress blog.</p>
+        <div class="articles-grid" id="articles-list" aria-live="polite">
+          <div class="article-card skeleton"></div>
+          <div class="article-card skeleton"></div>
+          <div class="article-card skeleton"></div>
+        </div>
+        <div class="articles-footer">
+          <a
+            class="btn ghost"
+            href="https://edubertin.wordpress.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-i18n="articles.more"
+          >
+            View all posts
           </a>
         </div>
       </div>
